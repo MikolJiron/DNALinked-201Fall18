@@ -6,16 +6,22 @@ public class LinkStrand implements IDnaStrand{
     private class Node {
         String info;
         Node next;
+
         public Node(String s) {
             info = s;
             next = null;
+        }
+        public Node(String s, Node n){
+            info = s;
+            next = n;
         }
     }
 
     /**
      * These are the instance variables: two Nodes, a long, and an int
      */
-    private Node myFirst, myLast;
+    private Node myFirst;
+    private Node myLast;
     private long mySize;
     private int myAppends;
 
@@ -111,18 +117,30 @@ public class LinkStrand implements IDnaStrand{
     @Override
     public IDnaStrand append(String s){
         myLast = new Node(s);
-        Node copy = myFirst;
+        myFirst = addTo(myFirst, myLast);
 
-        while(copy.next != null){
-            copy = copy.next;
-        }
-        copy.next = myLast;
-
-        myFirst = copy;
         mySize += s.length();
         myAppends++;
 
         return this;
+    }
+
+    /**
+     * helper method for append
+     * @param orig this is what myFirst is represented
+     * @param add this is the node added to the end, which is also the new myLast
+     * @return the myFirst listnode that has added the new node at the end
+     */
+    private Node addTo(Node orig, Node add){
+
+        Node last = orig;
+
+        while(last.next != null){
+            last = last.next;
+        }
+        last.next = add;
+
+        return orig;
     }
 
     /**
