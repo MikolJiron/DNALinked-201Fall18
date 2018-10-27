@@ -73,10 +73,29 @@ LinkStrand:	    536,870,912	346,286,369,750	0.004	1290
 
 Question 1: are the benchmark timings for StringStrand consistent with the explanation below that the time to execute cutAndSplice is O(b2S)?
 
-Note that the value of b is half the number of calls to append since each cut (except the first) is modeled by two calls of append in the method cutAndSplice -- see the code. This means that b2 will be constant in the benchmark, but S will vary.
+Note that the value of b is half the number of calls to append since each cut (except the first) is modeled by two calls of append in the method
+cutAndSplice -- see the code. This means that b2 will be constant in the benchmark, but S will vary.
+
+Answer: Since b^2 will remain constant, the benchmark timing are consistent with the explanation that cutAndSplice is O(b^2 *S),
+this is because one can see how the time begins to exponentially increase as the splicee size increases. For example,
+when the size of the splicee remains around 256-4,096 chars, the increase was round .1 each time. But as the size doubled
+from 16,384 to 32,768, there was a near double increase in runtime. After there was increase of splicee size from 65,356
+to 131,072 the runtime more than doubled from 4.954 to 11.508.
 
 Question 2: are the benchmark timings for StringBuilderStrand consistent with the explanation below that the time to execute cutAndSplice is O(bS)?
 
-Note that the value of b is half the number of calls to append since each cut (except the first) is modeled by two calls of append in the method cutAndSplice -- see the code. This means that b will be constant in the benchmark, but S will vary.
+Note that the value of b is half the number of calls to append since each cut (except the first) is modeled by two calls of append in the method
+cutAndSplice -- see the code. This means that b will be constant in the benchmark, but S will vary.
+Since b stays constant, as S, the length of the splicee varies, the runtime varies in proportion to S. This means that there is a more gradual, linear
+increase in runtime. Therefore, there aren't any significant increases in runtime until the length of the splicee gets to the
+131,072-524,288 range. Even so, the increase in runtime is more proportional and less exponential. There is a weird behavior where
+the runtime jumps from 0.075 to 0.311 and then .488, which goes from quadrupling, to just doubling. Nevertheless, the increase in runtime is
+significantly less in proportion to the increase in S, when compared to the StringStrand class.
 
-Question 3: Explain why the time for LinkStrand does not change much at all over all the runs in the benchmark program. Explain why you think memory is exhausted at the specific strand size you see in your timings -- as compared to exhaustion for String and StringBuilder.
+Question 3: Explain why the time for LinkStrand does not change much at all over all the runs in the benchmark program.
+Explain why you think memory is exhausted at the specific strand size you see in your timings -- as compared to exhaustion for String and StringBuilder.
+
+In both StringStrand and StringBuilderStrand, a new copy of splicee must be created each time it is cutAndSpliced into the Strand.
+However, with LinkStrand, you only need one copy of the splicee with which every new Node that is created can point to. This not
+only significantly reduces the memory it takes, it also reduces the time. This means that it will run faster, and it will take a bigger
+size splicee to fill up my computer's memory.
