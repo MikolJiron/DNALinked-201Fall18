@@ -156,10 +156,13 @@ public class LinkStrand implements IDnaStrand{
         ret.myFirst = addToFront(this.myFirst);
 
         //initialize myLast
-        StringBuilder copyLast = new StringBuilder(this.myLast.info);
-        copyLast.reverse();
-        String lastString = copyLast.toString();
-        ret.myLast = new Node(lastString);
+        if(this.myLast != null){
+            StringBuilder copyLast = new StringBuilder(this.myLast.info);
+            copyLast.reverse();
+            String lastString = copyLast.toString();
+            ret.myLast = new Node(lastString);
+        }
+
 
         //initialize mySize
         ret.mySize = ret.toString().length();
