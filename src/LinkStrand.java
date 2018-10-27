@@ -111,7 +111,14 @@ public class LinkStrand implements IDnaStrand{
     @Override
     public IDnaStrand append(String s){
         myLast = new Node(s);
-        myFirst.next = myLast;
+        Node copy = myFirst;
+
+        while(copy.next != null){
+            copy = copy.next;
+        }
+        copy.next = myLast;
+
+        myFirst = copy;
         mySize += s.length();
         myAppends++;
 
