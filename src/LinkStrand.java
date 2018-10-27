@@ -145,13 +145,32 @@ public class LinkStrand implements IDnaStrand{
 
     /**
      *This method uses the addToFront() helper method to reverse the myFirst Node of this LinkStrand
-     * I then assign this new Node to a LinkStrand to be returned
+     * I then assign this new Node to a LinkStrand of which I initialize all of its instance variables
+     * and then return this new LinkStrand
      * @return the reverse of this LinkStrand
      */
     @Override
     public IDnaStrand reverse(){
         LinkStrand ret = new LinkStrand();
+        //initialize myFirst
         ret.myFirst = addToFront(this.myFirst);
+
+        //initialize myLast
+        StringBuilder copyLast = new StringBuilder(this.myLast.info);
+        copyLast.reverse();
+        String lastString = copyLast.toString();
+        ret.myLast = new Node(lastString);
+
+        //initialize mySize
+        ret.mySize = ret.toString().length();
+
+        //initialize myAppends
+        ret.myAppends = this.myAppends;
+
+        //initialize myCurrent, myIndex, and myLocalIndex;
+        ret.myCurrent = ret.myFirst;
+        ret.myIndex = 0;
+        ret.myLocalIndex = 0;
 
         return ret;
     }
