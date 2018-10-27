@@ -144,46 +144,41 @@ public class LinkStrand implements IDnaStrand{
     }
 
     /**
-     *
+     *This method uses the addToFront() helper method to reverse the myFirst Node of this LinkStrand
+     * I then assign this new Node to a LinkStrand to be returned
      * @return the reverse of this LinkStrand
-     * This method creates a copy of myFirst and then traverses through it and creates a reversed LinkStrand
-     * by creating the next node and then reversing the information in that individual node ( a String) and,
-     * finally, adding it to the front of the new LinkStrand
      */
     @Override
     public IDnaStrand reverse(){
-        //copy of myFirst
-        Node temp = myFirst;
-
-        //starts the reverse list node and gets rid of all of its links
-        Node reverse = temp;
-        reverse.next = null;
-
-        //LinkStrand to return
         LinkStrand ret = new LinkStrand();
+        ret.myFirst = addToFront(this.myFirst);
 
-        while(temp != null){
-            //makes temp2 the next node
-           Node temp2 = temp.next;
-
-           //the node after temp2 will be reverse, which was the original first node, and will be the newly created node
-           temp2.next = reverse;
-
-           //the reverse list node will now be equal to what it was before but with the next node of temp at the front
-           reverse = temp2;
-
-           //reverse the string itself
-           StringBuilder copy = new StringBuilder(reverse.info);
-           copy.reverse();
-           String copyString = copy.toString();
-           reverse.info = copyString;
-           ret.append(reverse.info);
-
-           //traverse the temp list node
-           temp = temp.next;
-        }
         return ret;
     }
+
+    /**
+     * This helper method does most of the work for reverse() it basically takes in this.myFirst so that it won't be changed
+     * but you can still manipulate it within the private addToFront(). I basically add every subsequent node after the
+     * first node to the front until the original node is null. In the process, I add the String within each node back in
+     * reversed.
+     * @param orig this is the node to be reversed, in this case it's myFirst
+     * @return the reversed List of Nodes representing the new object to be returned in reverse()
+     */
+    private Node addToFront(Node orig){
+        Node first = null;
+
+        while(orig != null){
+            StringBuilder copy = new StringBuilder(orig.info);
+            copy.reverse();
+            String copyString = copy.toString();
+
+            Node nf = new Node(copyString, first);
+            first = nf;
+            orig = orig.next;
+        }
+        return first;
+    }
+
 
     /**
      *
