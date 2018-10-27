@@ -192,9 +192,10 @@ public class LinkStrand implements IDnaStrand{
      */
     @Override
     public char charAt(int index){
-        if(index > this.toString().length()){
+        if(index > this.toString().length() - 1 || index < 0){
             throw new IndexOutOfBoundsException("This index is not in the Strand");
         }
+
         while (myIndex != index) {
 
             myIndex++;
@@ -209,6 +210,17 @@ public class LinkStrand implements IDnaStrand{
         return myCurrent.info.charAt(myLocalIndex);
 
     }
+   /* public static void main(String[] args){
+        LinkStrand ex = new LinkStrand("holy shit I am fucked");
+
+        ex.append(" Please Work");
+        ex.append(" I am trying");
+        ex.append(" I don't understand");
+        System.out.println(ex.toString().charAt(25));
+        //System.out.println(ex.toString().charAt(120));
+        System.out.println(ex.charAt(25));
+        System.out.println(ex.charAt(120));
+    }*/
 
 
 
