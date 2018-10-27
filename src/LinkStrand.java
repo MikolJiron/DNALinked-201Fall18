@@ -51,6 +51,7 @@ public class LinkStrand implements IDnaStrand{
     public void initialize(String source) {
         myFirst = new Node(source);
         myLast = null;
+        mySize = source.length();
         myAppends = 0;
 
         myCurrent = myFirst;
