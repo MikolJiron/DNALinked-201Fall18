@@ -193,7 +193,7 @@ public class LinkStrand implements IDnaStrand{
     @Override
     public char charAt(int index){
         if(index > this.toString().length()){
-            return ' ';
+            throw new IndexOutOfBoundsException("This index is not in the Strand");
         }
         while (myIndex != index) {
 
